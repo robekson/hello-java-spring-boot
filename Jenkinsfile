@@ -12,16 +12,9 @@ retriever: modernSCM(
 // The name you want to give your Spring Boot application
 // Each resource related to your app will be given this name
 appName = "hello-java-spring-boot"
+env.DEV = "hello-java-spring-boot-dev"
+env.BUILD= "hello-java-spring-boot-build"
 
-openshift.withCluster() {
-  env.NAMESPACE = openshift.project()
-  env.POM_FILE = env.BUILD_CONTEXT_DIR ? "${env.BUILD_CONTEXT_DIR}/pom.xml" : "pom.xml"
-  echo "Starting Pipeline for ${env.APP_NAME}..."
-  env.BUILD = "${env.NAMESPACE_BUILD}"
-  env.DEV = "${env.NAMESPACE_DEV}"
-  env.STAGE = "${env.NAMESPACE_STAGE}"
-  env.PROD = "${env.NAMESPACE_PROD}"
-}
 
 pipeline {
     // Use the 'maven' Jenkins agent image which is provided with OpenShift 
@@ -42,12 +35,12 @@ pipeline {
         }      
        stage('Promote from Build to Dev') {
           steps {
-            tagImage(sourceImageName: env.APP_NAME, sourceImagePath: env.BUILD, toImagePath: env.DEV)
+            tagImage(sourceImageName: appName, sourceImagePath: env.BUILD, toImagePath: env.DEV)
            }
         }
        stage ('Verify Deployment to Dev') {
          steps {
-            verifyDeployment(projectName: env.DEV, targetApp: env.APP_NAME)
+            verifyDeployment(projectName: env.DEV, targetApp: appName)
          }
        }
 

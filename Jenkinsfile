@@ -12,7 +12,7 @@ retriever: modernSCM(
 // The name you want to give your Spring Boot application
 // Each resource related to your app will be given this name
 appName = "hello-java-spring-boot"
-env.DEV = "hello-java-spring-boot-dev"
+env.DEV = "robeksonrm-dev"
 env.BUILD= "hello-java-spring-boot-build"
 
 

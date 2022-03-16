@@ -34,19 +34,6 @@ pipeline {
             }
         }      
        
-        stage ('Verify Deployment to Dev') {
-          steps {
-            verifyDeployment(projectName: env.DEV , targetApp: appName)
-          }
-        }
-
-        stage('Promote image') {
-          steps {
-            tagImage(sourceImagePath: env.DEV , sourceImageName: appName, toImagePath: "hello-java-spring-boot-test")
-          }
-        }
-      
-
         // You could extend the pipeline by tagging the image,
         // or deploying it to a production environment, etc......
     }
